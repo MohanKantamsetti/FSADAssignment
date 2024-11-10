@@ -1,2 +1,0 @@
-# FSADAssignment
-FSAD Assignment

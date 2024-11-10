@@ -1,0 +1,5 @@
+barter_env/
+resources/smtpconfig.py
+user_app/__pycache__/
+resources/__pycache__/
+book_app/__pycache__/
