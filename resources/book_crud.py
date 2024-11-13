@@ -1,6 +1,6 @@
 #code to perform crud operations on the database of books.
 from resources.dbcon import dbAccess
-from books_app.models import Book
+from book_app.models import Book
 db=dbAccess()
 import logging
 

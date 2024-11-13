@@ -64,7 +64,7 @@ def update_book():
         if update_book_bl(data):
             return jsonify({'message': 'Book updated successfully'}), 200
         else:
-            return jsonify({'message': 'Failed to update book'}), 500
+            return jsonify({'message': 'Failed to update book'}), 409
     except Exception as e:
         logger.error(str(e))
         return jsonify({'message': str(e)}), 500

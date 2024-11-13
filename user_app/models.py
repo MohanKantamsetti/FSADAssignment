@@ -83,7 +83,7 @@ def find_user(query):
     try:
         res=find_userdb(query)
         if res.password == hash_password(password+res.salt) and res.active:
-            return True
+            return True, res.bbid
         elif res.active == False:
             raise Exception('User not verified')
         else:

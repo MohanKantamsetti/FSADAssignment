@@ -29,7 +29,7 @@ def register():
         return jsonify({'message': 'User registered successfully', 'data': data}),200
     except Exception as e:
         logging.error(str(e))
-        return jsonify({'message': 'User registration failed','data': str(e)}),409
+        return jsonify({'message': 'User registration failed','data': str(e)}),400
 
 #verify user, {should this be a patch request?}
 @app.route('/api/user/verify/', methods=['POST'])
@@ -39,7 +39,7 @@ def verify():
         data = request.get_json()
         if verify_user(data):
             return jsonify({'message': 'User verified successfully'}),200
-        return jsonify({'message': 'User verification failed','data': 'Invalid credentials'}),409
+        return jsonify({'message': 'User verification failed','data': 'Invalid credentials'}),401
     except Exception as e:
         logging.error(str(e))
         return jsonify({'message': 'User verification failed','data': str(e)}),409
@@ -50,13 +50,16 @@ def verify():
 def login():
     try:
         data = request.get_json()
-        if find_user(data):
-            access_token=create_access_token(identity=data['email'])
-            return jsonify({'message': 'User logged in successfully', 'access_token':access_token}),200
-        return jsonify({'message': 'User login failed','data': 'Invalid credentials'}),409
+        res,bbid=find_user(data)
+        if res:
+            email=data['email']
+            access_token=create_access_token(identity=email)
+            data={'access_token':access_token,'userid':bbid,'email':email}
+            return jsonify({'message': 'User logged in successfully', 'data':data}),200
+        return jsonify({'message': 'User login failed','data': 'Invalid credentials'}),401
     except Exception as e:
         logging.error(str(e))
-        return jsonify({'message': 'User login failed','data': str(e)}),409
+        return jsonify({'message': 'User login failed','data': str(e)}),400
 
 #password reset code
 @app.route('/api/user/pwreset/code', methods=['POST'])
@@ -66,7 +69,7 @@ def pwreset_code():
         data = request.get_json()
         if pwrst_code(data):
             return jsonify({'message': 'Password reset code sent successfully'}),200
-        return jsonify({'message': 'Password reset code failed','data': 'Invalid credentials'}),409
+        return jsonify({'message': 'Password reset code failed','data': 'Invalid credentials'}),401
     except Exception as e:
         logging.error(str(e))
         return jsonify({'message': 'Password reset code failed','data': str(e)}),409
@@ -79,7 +82,7 @@ def pwreset():
         data = request.get_json()
         if pwrst(data):
             return jsonify({'message': 'Password reset successful'}),200
-        return jsonify({'message': 'Password reset failed','data': 'Invalid credentials'}),409
+        return jsonify({'message': 'Password reset failed','data': 'Invalid credentials'}),401
     except Exception as e:
         logging.error(str(e))
         return jsonify({'message': 'Password reset failed','data': str(e)}),409

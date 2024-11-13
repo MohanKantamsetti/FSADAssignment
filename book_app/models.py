@@ -106,6 +106,15 @@ def get_books_bl(args):
                 sort=args[key]
             continue
         query[key]=args[key]
+    #to put regex for partial string match.
+    for key in query:
+        if key in ['bid','isbn','owner','availability']:
+            continue
+        query[key]={'$regex':query[key], '$options': 'i'}
+        #if multiple queries are present, then use $or operator.
+    if len(query)>1:
+        query=[{k:v} for k,v in query.items()]
+        query={'$or': query}
     books=[]
     try:
         for book in get_books_query_db(query,limit,offset,sort):
