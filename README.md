@@ -86,6 +86,30 @@ project_root/
    ```
 
 ## Running the Applications
+### Prerequisites
+
+1. **MongoDB:**
+   - Ensure that MongoDB is installed and running locally on port 27017. This is the default port for MongoDB, and it's where the application will connect to store and retrieve data.
+   - You can download and install MongoDB from the [official MongoDB website](https://www.mongodb.com/try/download/community).
+   - Start the MongoDB server using the command:
+     ```bash
+     mongod
+     ```
+2. **Python and Flask:**
+   - Make sure Python is installed on your machine. You can download it from the [official Python website](https://www.python.org/).
+   - Install Flask and other dependencies using pip:
+     ```bash
+     pip install -r requirements.txt
+     ```
+
+### Application Configuration
+
+- **Unique Users:**
+  - The application ensures that each user has a unique email address. This is enforced by the database schema, which sets the email field to be unique.
+  - If you are manually managing the MongoDB collections, ensure that the `users` collection has a unique index on the `email` field. You can create this index using the MongoDB shell or a GUI tool like MongoDB Compass:
+    ```javascript
+    db.users.createIndex({ email: 1 }, { unique: true });
+    ```
 
 ### auth_app
 
